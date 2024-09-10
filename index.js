@@ -13,13 +13,13 @@ database.connect();
 const app = express();
 const port = process.env.PORT;
 
-app.set("views", "./views");
+app.set("views", "./views"); // set-> để thay đổi giá trị 
 app.set("view engine", "pug");
 
 // App Locals Variables 
 app.locals.prefixAdmin = systemConfig.prefixAdmin; 
 
-app.use(express.static("public"));
+app.use(express.static("public"));  
 
 // Routes
 routeAdmin(app);
