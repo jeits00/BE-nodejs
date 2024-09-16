@@ -8,7 +8,7 @@ module.exports.index = async (req, res) => {
         {
             name: "All",
             status: "",
-            class: ""
+            class: "active"
         },
         {
             name: "Online",
@@ -24,10 +24,10 @@ module.exports.index = async (req, res) => {
     
     if(req.query.status) {
         const index = filterStatus.findIndex(item => item.status == req.query.status);
-        filterStatus[index].class = "active";
+        filterStatus[index].class == "active";
     } else {
         const index = filterStatus.findIndex(item => item.status == "");
-        filterStatus[index].class = "active";
+        filterStatus[index].class == "active";
     }   
 
     let find = {
