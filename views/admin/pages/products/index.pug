@@ -1,0 +1,35 @@
+extends ../../layouts/default.pug
+
+block main 
+    h1 Product page 
+
+    table.table.table-hover.table-sm
+        thead 
+            tr 
+                th STT 
+                th Image 
+                th Title  
+                th Price
+                th Status 
+                th Action
+
+        tbody 
+            tr 
+                td 1
+                td 
+                    img(
+                        src="https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png"
+                        alt="San Pham 1"
+                        width="100px"
+                        height="auto"
+                    )
+                td Product 1
+                td 100$
+                td 
+                    a(href="#" class="badge-success") Online 
+                td 
+                    button(class="btn btn-warning btn-btn-sm") Edit  
+                    button(class="btn btn-danger btn-sm ml-1") Deleted  
+
+            tr 
+                td 2
