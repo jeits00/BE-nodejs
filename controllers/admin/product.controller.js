@@ -4,7 +4,7 @@ const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
 
-// [GET] admin/products
+// [GET] admin/products , lấy ra danh sách sản phẩm
 module.exports.index = async (req, res) => {
 
     // bộ lọc
@@ -79,11 +79,15 @@ module.exports.changeMulti = async (req, res) => {
     res.redirect("back");
 };
 
-// [PATCH] admin/products/delete/:id
+// [PATCH] admin/products/delete/:id - tính năng xóa sản phẩm
 module.exports.deleteItem = async (req, res) => {
     const id = req.params.id;
 
-    await Product.deleteOne({ _id: id });
+    // await Product.deleteOne({ _id: id });
+    await Product.updateOne({ _id: id }, {
+        deleted: true ,
+        deleteAt: new Date()
+    });
 
     res.redirect("back");
 };
