@@ -117,7 +117,17 @@ if(formChangeMulti) {
 
             inputsChecked.forEach(input => {
                 const id = input.value;
-                ids.push(id);
+
+                // xử lý thay đổi sản phẩm rồi chuyển sang BE
+                if (typeChange == "change-position") {
+                    const position = input
+                        .closest("tr")
+                        .querySelector("input[name='position']").value;
+
+                    ids.push(`${id}-${position}`);
+                } else {
+                    ids.push(id);
+                }
             });
 
             inputIds.value = ids.join(", ");
