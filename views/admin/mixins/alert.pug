@@ -7,6 +7,7 @@ mixin alert-success(time)
                 data-time=time
             ) #{messages.success} <span close-alert>X</span>
 
+//- thêm phần thông báo khi thêm sp mới true/false
 mixin alert-error(time)
     - if (messages.error)
         .message.info 
