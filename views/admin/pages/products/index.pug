@@ -94,7 +94,10 @@ block main
                                             class="badge-danger"
                                         ) Off
                                 td 
-                                    button(class="btn btn-warning btn-btn-sm") Edit  
+                                    a(
+                                        href=`${prefixAdmin}/products/edit/${item.id}`
+                                        class="btn btn-warning btn-btn-sm"
+                                    ) Edit  
                                     button(
                                         class="btn btn-danger btn-sm ml-1"
                                         button-delete 

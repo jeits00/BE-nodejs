@@ -157,3 +157,48 @@ module.exports.createPost = async (req, res) => {
 
     res.redirect(`${systemConfig.prefixAdmin}/products`);
 };
+
+// [GET] admin/products/edit/:id - xử lý logic phần sửa sản phẩm phương thức GET 
+module.exports.edit = async (req, res) => {
+    try {
+        const find = {
+            deleted: false,
+            _id: req.params.id 
+        };
+    
+        const product = await Product.findOne(find);
+    
+        res.render("admin/pages/products/edit", {
+            pageTitle: "chỉnh sửa sản phẩm",
+            product: product 
+        });
+    } catch (error) {
+        // req.flash("error", ""); tự thêm câu lệnh thông báo bằng req.flash 
+        res.redirect(`${systemConfig.prefixAdmin}/products`);
+    }
+};
+
+// [PATCH] admin/products/edit/:id - xử lý logic phần sửa sản phẩm phương thức PATCH
+module.exports.editPatch = async (req, res) => {
+    const id = req.params.id;
+
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);
+    req.body.position = parseInt(req.body.position)
+
+    // nếu user nhập file mới thì ta update lại bằng file link mới và ngược lại
+    if (req.file) {
+        req.body.thumbnail = `/uploads/${req.file.filename}`;
+    }
+
+    // câu lệnh update 
+    try {
+        await Product.updateOne({ _id: id}, req.body);
+        req.flash("Success", `Cập nhập thành công!`);
+    } catch (error) {
+        req.flash("Error", `Cập nhập thất bại!`);
+    }
+
+    res.redirect("back");
+};

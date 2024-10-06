@@ -24,4 +24,15 @@ router.post(
     controller.createPost
 );
 
+// tạo đường dẫn cho sửa sản phẩm 
+router.get("/edit/:id", controller.edit);
+
+// tạo đường dẫn cho sửa sản phẩm với phương thức PATCH
+router.patch(
+    "/edit/:id", 
+    controller.editPatch,
+    validate.createPost,
+    controller.createPost
+);
+
 module.exports = router;
