@@ -35,4 +35,7 @@ router.patch(
     controller.createPost
 );
 
+// Đường dẫn của chi tiết sản phẩm
+router.get("/detail/:id", controller.detail);
+
 module.exports = router;

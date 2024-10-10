@@ -83,7 +83,7 @@ block main
                                             data-status=item.status
                                             data-id=item.id
                                             button-change-status
-                                            class="badge-success"
+                                            class="badge badge-success"
                                         ) Online 
                                     else 
                                         a(
@@ -91,12 +91,16 @@ block main
                                             data-status=item.status
                                             data-id=item.id
                                             button-change-status 
-                                            class="badge-danger"
+                                            class="badge badge-danger"
                                         ) Off
                                 td 
                                     a(
+                                        href=`${prefixAdmin}/products/detail/${item.id}`
+                                        class="btn btn-secondary btn-sm"
+                                    ) Chi tiết 
+                                    a(
                                         href=`${prefixAdmin}/products/edit/${item.id}`
-                                        class="btn btn-warning btn-btn-sm"
+                                        class="btn btn-warning btn-sm"
                                     ) Edit  
                                     button(
                                         class="btn btn-danger btn-sm ml-1"
