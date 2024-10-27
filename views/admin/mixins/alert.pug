@@ -1,0 +1,18 @@
+mixin alert-success(time)
+    - if (messages.success)
+        .message.info 
+            div(
+                class="alert alert-success"
+                show-alert 
+                data-time=time
+            ) #{messages.success} <span close-alert>X</span>
+
+//- tính này lỗi chưa tìm ra cách sửa 
+//- mixin alert-error(time)
+//-     - if (message.error)
+//-         .message.info 
+//-             div(
+//-                 class="alert alert-danger"
+//-                 show-alert 
+//-                 data-time=time 
+//-             ) #{messages.error} <span close-alert>x</span>
