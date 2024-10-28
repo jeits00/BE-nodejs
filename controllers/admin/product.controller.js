@@ -213,6 +213,7 @@ module.exports.editPatch = async (req, res) => {
     res.redirect(`${systemConfig.prefixAdmin}/products`);
 }
 
+// [] - chỉnh sửa sản phẩm
 module.exports.detail = async (req, res) => {
     try {
         const find = {

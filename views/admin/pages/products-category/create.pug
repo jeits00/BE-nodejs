@@ -1,15 +1,15 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug 
 
-//- Giao Diện trang tạo mới sản phẩm
 block main 
+
     //- +alert-error(5000)
-    
-    h1(class="mb-4") Add New Product 
+
+    //- Giao Diện trang tạo mới sản phẩm
+    h1(class="mb-4") Add New Product Category 
 
     form(
-        action=`${prefixAdmin}/products/create`
-        id="form-create-product"
+        action=`${prefixAdmin}/products-category/create`
         method="POST"
         enctype="multipart/form-data"
     )
@@ -23,55 +23,34 @@ block main
                 required
             )
         div(class="form-group")
-            label(for="desc") Description 
+            label(for="parent_id") Danh mục cha 
+            input(
+                type="text"
+                class="form-control"
+                id="parent_id"
+                name="parent_id"
+            )
+        div(class="form-group")
+            label(for="desc")  Desc
             textarea(
+                type="text"
                 class="form-control textarea-mce"
                 id="desc"
                 name="description"
-                rows="5"
-            )
-        div(class="form-group")
-            label(for="price") Price
-            input(
-                type="number"
-                class="form-control"
-                id="price"
-                name="price"
-                value="0"
-                min="0"
-            )
-        div(class="form-group")
-            label(for="discount") % Sell
-            input(
-                type="number"
-                class="form-control"
-                id="discount"
-                name="discountPercentage"
-                value="0"
-                min="0"
-            )
-        div(class="form-group")
-            label(for="stock") Quantity
-            input(
-                type="number"
-                class="form-control"
-                id="stock"
-                name="stock"
-                value="0"
-                min="0"
+                rows="S"
             )
         div(
             class="form-group"
             upload-image 
         )
-            label(for="thumbnail") Image 
+            label(for="thumbnail") Image
             input(
-                input="file"
+                type="file"
                 class="form-control-file"
                 id="thumbnail"
                 name="thumbnail"
                 accept="image/*"
-                upload-image-input
+                upload-image-input 
             )
             img(
                 src=""
@@ -79,13 +58,13 @@ block main
                 upload-image-preview 
             )
         div(class="form-group")
-            label(for="position") Location 
+            label(for="position") Position 
             input(
                 type="number"
                 class="form-control"
                 id="position"
                 name="position"
-                placeholder="tự động tăng"
+                placeholder="Tự động tăng"
                 min="1"
             )
         div(class="form-group form-check form-check-inline")
@@ -97,12 +76,12 @@ block main
                 value="active"
                 checked 
             )
-            label(for="statusActive" class="form-check-label") Online 
+            label(for="statusActive" class="form-check-label") Off 
         div(class="form-group form-check form-check-inline")
             input(
                 type="radio"
                 class="form-check-input"
-                id="statusInActive"
+                id="statusActive"
                 name="status"
                 value="inactive"
             )
@@ -110,8 +89,5 @@ block main
         div(class="form-group")
             button(
                 type="submit"
-                class="btn btn-primary"
-            ) Add New 
-
-    script(src="/admin/js/product.js")
-    script(src="/admin/js/script.js")
+                class="btn bnt-primary"
+            ) + Add New 
