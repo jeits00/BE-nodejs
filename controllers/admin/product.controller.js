@@ -1,11 +1,15 @@
 // Phần xử lý bên BE
 const Product = require("../../models/product.model");
+const ProductCategory = require("../../models/product-category.model");
 
 const systemConfig = require("../../config/system");
 
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
+
+const createTreeHelper = require("../../helpers/createTree");
+
 
 module.exports.index = async (req, res) => {
     
@@ -140,8 +144,17 @@ module.exports.deleteItem = async (req, res) => {
 
 // [GET] admin/products/create - tạo mới 1 sp
 module.exports.create = async (req, res) => {
+    let find = {
+        deleted: false
+    };
+
+    const category = await ProductCategory.find(find);
+
+    const newCategory = createTreeHelper.tree(category);
+
     res.render("admin/pages/products/create", {
-        pageTitle: "Add New Product"
+        pageTitle: "Add New Product",
+        category: newCategory
     });
 }
 
@@ -231,3 +244,4 @@ module.exports.detail = async (req, res) => {
         res.redirect(`${systemConfig.prefixAdmin}/products`);
     }   
 }
+
