@@ -27,22 +27,6 @@ module.exports.create = async (req, res) => {
         deleted: false
     };
 
-    // đệ quy 
-    // function createTree(arr, parentId = "") {
-    //     const tree = [];
-    //     arr.forEach((item) => {
-    //         if (item.parent_id === parentId) {
-    //             const newItem = item;
-    //             const children = createTree(arr, item.id);
-    //             if (children.length > 0) {
-    //                 newItem.children = children;
-    //             } 
-    //             tree.push(newItem);
-    //         }
-    //     });
-    //     return tree;
-    // }
-
     const records = await ProductCategory.find(find);
 
     const newRecords = createTreeHelper.tree(records);
@@ -68,4 +52,41 @@ module.exports.createPost = async (req, res) => {
     await record.save();
 
     res.redirect(`${systemConfig.prefixAdmin}/products-category`);
+};
+
+// [GET] /admin/products-category/edit/:id - chỉnh sửa sp
+module.exports.edit = async (req, res) => {
+    try {
+        const id = req.params.id;
+    
+        const data = await ProductCategory.findOne({
+            _id: id,
+            deleted: false
+        });
+
+        const records = await ProductCategory.find({
+            deleted: false
+        });
+
+        const newRecords = createTreeHelper.tree(records);
+
+        res.render("admin/pages/products-category/edit", {
+            pageTitle: "Edit product category",
+            data: data,
+            records: newRecords
+        });
+    } catch (error) {
+        res.redirect(`${systemConfig.prefixAdmin}/products-category`);
+    }
+};
+
+// [PATCH] /admin/products-category/edit/:id - chỉnh sửa sp
+module.exports.editPatch = async (req, res) => {
+    const id = req.params;
+
+    // Phần này in -> object rỗng : chưa tìm thấy lỗi
+    // req.body.position = parseInt(req.body.position);
+    // await ProductCategory.updateOne({ _id: id }, req.body);
+
+    res.redirect("back");
 };
