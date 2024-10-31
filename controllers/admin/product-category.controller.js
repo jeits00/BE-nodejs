@@ -90,3 +90,33 @@ module.exports.editPatch = async (req, res) => {
 
     res.redirect("back");
 };
+
+// [GET] /admin/detail/:id - 
+module.exports.detail = async (req, res) => {
+    try {
+        const find = {
+            deleted: false,
+            _id: req.params.id 
+        };
+    
+        const records = await ProductCategory.findOne(find);
+    
+        res.render("admin/pages/products-category/detail", {
+            pageTitle: records.title,
+            records: records 
+        });
+    } catch (error) {
+        res.redirect(`${systemConfig.prefixAdmin}/products-category`);
+    }
+};  
+
+// [DELETE] /admin/products-category/delete/:id
+module.exports.deleteItem = async (req, res) => {
+
+    const id = req.params.id;
+    console.log(id);
+
+    // await ProductCategory.deleteOne({ _id: id });
+
+    // res.redirect("back");
+};

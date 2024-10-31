@@ -58,3 +58,13 @@ mixin table-tree(items, level = 1)
                 ) Deleted
         if item.children && item.children.length > 0
             +table-tree(item.children, level + 1)
+
+    form(
+        action=""
+        method="POST"
+        id="form-delete-item"
+        data-path=`${prefixAdmin}/products-category/delete`
+    )
+
+    script(src="/admin/js/script.js")
+    script(src="/admin/js/product.js")
