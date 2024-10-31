@@ -42,7 +42,18 @@ block main
                                         ) Edit 
                                         button(
                                             class="btn btn-danger btn-sm ml-1"
+                                            button-delete
+                                            data-id=item.id
                                         ) Deleted 
                         else 
                             tr 
                                 td(colspan="4" class="text-center") No rights group has trained yet
+
+    form(
+        action=""
+        method="POST"
+        id="form-delete-item"
+        data-path=`${prefixAdmin}/roles/delete`
+    )
+
+    script(src="/admin/js/product.js")

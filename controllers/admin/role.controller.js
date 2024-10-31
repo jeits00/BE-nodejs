@@ -69,3 +69,31 @@ module.exports.editPatch = async (req, res) => {
 
     res.redirect("back");
 };
+
+// [GET] /admin/roles/detail/:id
+module.exports.detail = async (req, res) => {
+    try {
+        const find = {
+            deleted: false,
+            _id: req.params.id
+        };
+    
+        const data = await Role.findOne(find);
+    
+        res.render("admin/pages/roles/detail", {
+            pageTitle: data.title,
+            data: data
+        });
+    } catch (error) {
+        res.redirect(`${systemConfig.prefixAdmin}/roles`);
+    }   
+};  
+
+// [GET] /admin/roles/delete/:id
+module.exports.deleteItem = async (req, res) => {
+    const id = req.params.id;
+
+    await Role.deleteOne({ _id: id });
+
+    res.redirect("back");
+};

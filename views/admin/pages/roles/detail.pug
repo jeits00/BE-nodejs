@@ -1,0 +1,13 @@
+extends ../../layouts/default.pug 
+
+block main 
+    if (data.title)
+        h1(class="mb-4") Title: #{data.title}
+
+    if (data.description)
+        h1(class="mb-4") Description: #{data.description}
+
+    a(
+        href=`${prefixAdmin}/roles/detail/${data.id}`
+        class="btn btn-warning"
+    ) Edit  
