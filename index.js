@@ -1,4 +1,4 @@
-// bài 30: 39:01
+// bài 31: 42:31 
 
 const express = require("express");
 const multer = require("multer");
