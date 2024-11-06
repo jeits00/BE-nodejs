@@ -21,14 +21,23 @@ const productSchema = new mongoose.Schema({
         slug: "title",
         unique: true 
     },
+    createBy: {
+        account_id: String,
+        createAt: {
+            type: Date,
+            default: Date.now
+        }
+    },
     deleted: {
         type: Boolean,
         default: false,
     },
     deleteAt: Date
-}, {
-    timestamps: true
-});
+    }, 
+    {
+        timestamps: true
+    }
+);
 
 const Product = mongoose.model("Product", productSchema, "products");
 

@@ -5,6 +5,7 @@ include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/alert.pug
 include ../../mixins/sort.pug 
+include ../../mixins/moment.pug 
 
 block main 
 
@@ -57,6 +58,7 @@ block main
                                 th Price
                                 th Position
                                 th Status 
+                                th Người tạo 
                                 th Action
 
                         tbody 
@@ -105,6 +107,10 @@ block main
                                                     class="badge-danger"
                                                 ) Off
                                     td 
+                                        p #{item.accountFullName}
+                                        p 
+                                            +formatDateTime(item.createBy.createAt)
+                                    td 
                                         a(
                                             href=`${prefixAdmin}/products/detail/${item.id}`
                                             class="btn btn-secondary btn-btn-sm"
@@ -120,6 +126,8 @@ block main
                                                 button-delete 
                                                 data-id=item.id 
                                             ) Deleted    
+
+
         +pagination(pagination)
 
         form(
