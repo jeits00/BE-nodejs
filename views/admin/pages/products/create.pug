@@ -4,125 +4,127 @@ include ../../mixins/select-tree.pug
 
 //- Giao Diện trang tạo mới sản phẩm
 block main 
-    //- +alert-error(5000)
-    
-    h1(class="mb-4") Add New Product 
 
-    form(
-        action=`${prefixAdmin}/products/create`
-        id="form-create-product"
-        method="POST"
-        enctype="multipart/form-data"
-    )
-        div(class="form-group")
-            label(for="title") Title
-            input(
-                type="text"
-                class="form-control"
-                id="title"
-                name="title"
-                required
-            )
-        div(class="form-group")
-            label(for="product_category_id") Danh mục
-            select(
-                name="product_category_id"
-                id="product_category_id"
-                class="form-control"
-            )
-                option(value="") -- Chọn danh mục --
-                if(category)
-                    +select-tree(category)
-        div(class="form-group")
-            label(for="desc") Description 
-            textarea(
-                class="form-control textarea-mce"
-                id="desc"
-                name="description"
-                rows="5"
-            )
-        div(class="form-group")
-            label(for="price") Price
-            input(
-                type="number"
-                class="form-control"
-                id="price"
-                name="price"
-                value="0"
-                min="0"
-            )
-        div(class="form-group")
-            label(for="discount") % Sell
-            input(
-                type="number"
-                class="form-control"
-                id="discount"
-                name="discountPercentage"
-                value="0"
-                min="0"
-            )
-        div(class="form-group")
-            label(for="stock") Quantity
-            input(
-                type="number"
-                class="form-control"
-                id="stock"
-                name="stock"
-                value="0"
-                min="0"
-            )
-        div(
-            class="form-group"
-            upload-image 
+    if(role.permissions.includes("products_create"))
+        +alert-error(5000)
+        
+        h1(class="mb-4") Add New Product 
+
+        form(
+            action=`${prefixAdmin}/products/create`
+            id="form-create-product"
+            method="POST"
+            enctype="multipart/form-data"
         )
-            label(for="thumbnail") Image 
-            input(
-                input="file"
-                class="form-control-file"
-                id="thumbnail"
-                name="thumbnail"
-                accept="image/*"
-                upload-image-input
+            div(class="form-group")
+                label(for="title") Title
+                input(
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    required
+                )
+            div(class="form-group")
+                label(for="product_category_id") Danh mục
+                select(
+                    name="product_category_id"
+                    id="product_category_id"
+                    class="form-control"
+                )
+                    option(value="") -- Chọn danh mục --
+                    if(category)
+                        +select-tree(category)
+            div(class="form-group")
+                label(for="desc") Description 
+                textarea(
+                    class="form-control textarea-mce"
+                    id="desc"
+                    name="description"
+                    rows="5"
+                )
+            div(class="form-group")
+                label(for="price") Price
+                input(
+                    type="number"
+                    class="form-control"
+                    id="price"
+                    name="price"
+                    value="0"
+                    min="0"
+                )
+            div(class="form-group")
+                label(for="discount") % Sell
+                input(
+                    type="number"
+                    class="form-control"
+                    id="discount"
+                    name="discountPercentage"
+                    value="0"
+                    min="0"
+                )
+            div(class="form-group")
+                label(for="stock") Quantity
+                input(
+                    type="number"
+                    class="form-control"
+                    id="stock"
+                    name="stock"
+                    value="0"
+                    min="0"
+                )
+            div(
+                class="form-group"
+                upload-image 
             )
-            img(
-                src=""
-                class="image-preview"
-                upload-image-preview 
-            )
-        div(class="form-group")
-            label(for="position") Location 
-            input(
-                type="number"
-                class="form-control"
-                id="position"
-                name="position"
-                placeholder="tự động tăng"
-                min="1"
-            )
-        div(class="form-group form-check form-check-inline")
-            input(
-                type="radio"
-                class="form-check-input"
-                id="statusActive"
-                name="status"
-                value="active"
-                checked 
-            )
-            label(for="statusActive" class="form-check-label") Online 
-        div(class="form-group form-check form-check-inline")
-            input(
-                type="radio"
-                class="form-check-input"
-                id="statusInActive"
-                name="status"
-                value="inactive"
-            )
-            label(for="statusInActive" class="form-check-label") Off
-        div(class="form-group")
-            button(
-                type="submit"
-                class="btn btn-primary"
-            ) Add New 
+                label(for="thumbnail") Image 
+                input(
+                    input="file"
+                    class="form-control-file"
+                    id="thumbnail"
+                    name="thumbnail"
+                    accept="image/*"
+                    upload-image-input
+                )
+                img(
+                    src=""
+                    class="image-preview"
+                    upload-image-preview 
+                )
+            div(class="form-group")
+                label(for="position") Location 
+                input(
+                    type="number"
+                    class="form-control"
+                    id="position"
+                    name="position"
+                    placeholder="tự động tăng"
+                    min="1"
+                )
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusActive"
+                    name="status"
+                    value="active"
+                    checked 
+                )
+                label(for="statusActive" class="form-check-label") Online 
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusInActive"
+                    name="status"
+                    value="inactive"
+                )
+                label(for="statusInActive" class="form-check-label") Off
+            div(class="form-group")
+                button(
+                    type="submit"
+                    class="btn btn-primary"
+                ) Add New 
 
-    script(src="/admin/js/product.js")
-    script(src="/admin/js/script.js")
+        script(src="/admin/js/product.js")
+        script(src="/admin/js/script.js")
