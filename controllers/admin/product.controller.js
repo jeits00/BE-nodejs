@@ -60,12 +60,23 @@ module.exports.index = async (req, res) => {
         .skip(objectPagination.skip)
 
     for (const product of products) {
+        // Lấy ra thông tin người tạo
         const user = await Account.findOne({
             _id: product.createBy.account_id 
         });
 
         if(user) {
             product.accountFullName = user.fullName;
+        }
+
+        // Lấy ra thông tin người cập nhập gần nhất 
+        const updatedBy = product.updatedBy.slice(-1)[0];
+        if(updatedBy) {
+            const userUpdated = await Account.findOne({
+                _id: updatedBy.account_id 
+            });
+
+            updatedBy.accountFullName = userUpdated.fullName;
         }
     }
 
@@ -83,7 +94,15 @@ module.exports.changeStatus = async (req, res) => {
     const status = req.params.status;
     const id = req.params.id;
 
-    await Product.updateOne({ _id: id }, { status: status });
+    const updatedBy = {
+        account_id: res.locals.user.id,
+        updatedAt: new Date()
+    }
+
+    await Product.updateOne({ _id: id }, { 
+        status: status,
+        $push: { updatedBy: updatedBy }
+    });
 
     req.flash("success", "Status update successful");
 
@@ -95,13 +114,24 @@ module.exports.changeMulti = async (req, res) => {
     const type = req.body.type;
     const ids = req.body.ids.split(", ");
 
+    const updatedBy = {
+        account_id: res.locals.user.id,
+        updatedAt: new Date()
+    }
+
     switch (type) {
         case "active":
-            await Product.updateMany({ _id: { $in: ids } }, { status: "active" });
+            await Product.updateMany({ _id: { $in: ids } }, { 
+                status: "active",
+                $push: { updatedBy: updatedBy }
+            });
             req.flash("success", `Status update successful of ${ids.length} products!`);
             break;
         case "inactive":
-            await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
+            await Product.updateMany({ _id: { $in: ids } }, { 
+                status: "inactive",
+                $push: { updatedBy: updatedBy }
+            });
             req.flash("success", `Status update successful of ${ids.length} products!`);
             break;
         case "detele-all":
@@ -109,7 +139,11 @@ module.exports.changeMulti = async (req, res) => {
                 { _id: { $in: ids } },
                 {
                     delete: true,
-                    deleteAt: new Date()
+                    // deleteAt: new Date(),
+                    deletedBy: {
+                        account_id: res.locals.user.id,
+                        deleteAt: new Date(),
+                    }
                 }
             );
             break;
@@ -121,8 +155,13 @@ module.exports.changeMulti = async (req, res) => {
 
                 await Product.updateOne(
                     { _id: id }, 
-                    { position: position}
+                    { 
+                        position: position,
+                        $push: { updatedBy: updatedBy }
+                    },
                 );
+
+                req.flash("success", `Đã đổi vị trí thành công ${ids.length} sản phẩm!`)
             }
             break;
         default: 
@@ -147,7 +186,7 @@ module.exports.deleteItem = async (req, res) => {
 
     await Product.updateOne({ _id: id }, {
         deleted: true,
-        deleteAt: new Date(),
+        // deleteAt: new Date(),
         deletedBy: {
             account_id: res.locals.user.id,
             deleteAt: new Date(),
@@ -238,7 +277,16 @@ module.exports.editPatch = async (req, res) => {
     }
 
     try {
-        await Product.updateOne({ _id: id}, req.body);
+
+        const updatedBy = {
+            account_id: res.locals.user.id,
+            updatedAt: new Date()
+        }
+
+        await Product.updateOne({ _id: id}, {
+            ...req.body,
+            $push: { updatedBy: updatedBy }
+        });
         req.flash("success", `Cập nhập thành công!`);
     } catch (error) {
         req.flash("error", `Cập nhập thất bại!`)
