@@ -19,18 +19,30 @@ module.exports.index = async (req, res) => {
     });
 }
 
-// [GET] /products/:slug
+// [GET] /products/:slugCategory
 module.exports.detail = async (req, res) => {   
     try {
         const find = {
             deleted: false,
-            slug: req.params.slug,
+            slug: req.params.slugCategory,
             status: "active"
         };
 
         const product = await Product.findOne(find);
 
-        console.log(product);
+        if(product.product_category_id) {
+            const category = await ProductCategory.findOne({
+                _id: product.product_category_id,
+                status: "active",
+                deleted: false 
+            });
+
+            product.category = category;
+        }
+
+        // Giá sp cũ
+        product.priceNew = productsHelper.priceNewProducts(product);
+        // End giá sp cũ 
 
         res.render("client/pages/products/detail", {
             pageTitle: product.title,
@@ -39,7 +51,7 @@ module.exports.detail = async (req, res) => {
     } catch (error) {
         res.redirect(`/products`)
     }
-}
+};
 
 // [GET] /products/:slugCategory
 module.exports.category = async (req, res) => {   
