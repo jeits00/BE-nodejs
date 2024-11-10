@@ -5,94 +5,94 @@ include ../../mixins/select-tree.pug
 block main 
 
     //- Giao Diện trang tạo mới sản phẩm
-    if(role.permissions.includes("products-category_create"))
-        h1(class="mb-4") Add New Product Category 
+    //- if(role.permissions.includes("products-category_create"))
+    h1(class="mb-4") Add New Product Category 
 
-        +alert-error(5000)
+    +alert-error(5000)
 
-        form(
-            action=`${prefixAdmin}/products-category/create`
-            method="POST"
-            enctype="multipart/form-data"
-        )
-            div(class="form-group")
-                label(for="title") Title
-                input(
-                    type="text"
-                    class="form-control"
-                    id="title"
-                    name="title"
-                    required
-                )
-            div(class="form-group")
-                label(for="parent_id") Danh mục cha 
-                select(
-                    name="parent_id"
-                    id="parent_id"
-                    class="form-control"
-                )
-                    option(value="") -- Chọn danh mục cha --
-                    if(records)
-                        +select-tree(records)
-
-            div(class="form-group")
-                label(for="desc")  Desc
-                textarea(
-                    type="text"
-                    class="form-control textarea-mce"
-                    id="desc"
-                    name="description"
-                    rows="S"
-                )
-            div(
-                class="form-group"
-                upload-image 
+    form(
+        action=`${prefixAdmin}/products-category/create`
+        method="POST"
+        enctype="multipart/form-data"
+    )
+        div(class="form-group")
+            label(for="title") Title
+            input(
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                required
             )
-                label(for="thumbnail") Image
-                input(
-                    type="file"
-                    class="form-control-file"
-                    id="thumbnail"
-                    name="thumbnail"
-                    accept="image/*"
-                    upload-image-input 
-                )
-                img(
-                    src=""
-                    class="image-preview"
-                    upload-image-preview 
-                )
-            div(class="form-group")
-                label(for="position") Position 
-                input(
-                    type="number"
-                    class="form-control"
-                    id="position"
-                    name="position"
-                    placeholder="Tự động tăng"
-                    min="1"
-                )
-            div(class="form-group form-check form-check-inline")
-                input(
-                    type="radio"
-                    class="form-check-input"
-                    id="statusActive"
-                    name="status"
-                    value="active"
-                    checked 
-                )
-                label(for="statusActive" class="form-check-label") Online 
-            div(class="form-group form-check form-check-inline")
-                input(
-                    type="radio"
-                    class="form-check-input"
-                    id="statusActive"
-                    name="status"
-                    value="inactive"
-                )
-                label(for="statusInActive" class="form-check-label") Off
-            div(class="form-group")
-                button(
-                    type="submit"
-                    class="btn bnt-primary"
-                ) + Add New 
+        div(class="form-group")
+            label(for="parent_id") Danh mục cha 
+            select(
+                name="parent_id"
+                id="parent_id"
+                class="form-control"
+            )
+                option(value="") -- Chọn danh mục cha --
+                if(records)
+                    +select-tree(records)
+
+        div(class="form-group")
+            label(for="desc")  Desc
+            textarea(
+                type="text"
+                class="form-control textarea-mce"
+                id="desc"
+                name="description"
+                rows="S"
+            )
+        div(
+            class="form-group"
+            upload-image 
+        )
+            label(for="thumbnail") Image
+            input(
+                type="file"
+                class="form-control-file"
+                id="thumbnail"
+                name="thumbnail"
+                accept="image/*"
+                upload-image-input 
+            )
+            img(
+                src=""
+                class="image-preview"
+                upload-image-preview 
+            )
+        div(class="form-group")
+            label(for="position") Position 
+            input(
+                type="number"
+                class="form-control"
+                id="position"
+                name="position"
+                placeholder="Tự động tăng"
+                min="1"
+            )
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusActive"
+                name="status"
+                value="active"
+                checked 
+            )
+            label(for="statusActive" class="form-check-label") Online 
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusActive"
+                name="status"
+                value="inactive"
+            )
+            label(for="statusInActive" class="form-check-label") Off
+        div(class="form-group")
+            button(
+                type="submit"
+                class="btn bnt-primary"
+            ) + Add New 
