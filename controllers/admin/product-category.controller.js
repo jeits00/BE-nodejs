@@ -42,6 +42,14 @@ module.exports.create = async (req, res) => {
 // [POST] /admin/products-category/create - tạo mới sản phẩm
 module.exports.createPost = async (req, res) => {
     const permissions = res.locals.role.permissions;
+
+    // if(permissions.includes("products-categore_create")) {
+    //     console.log("Có quyền");
+    // } else {
+    //     res.render("403");
+    //     return;
+    // }
+
     // kiểm tra xem nếu không có quyền thì sẽ không truy cập được vào và ngược lại 
     if(permissions.includes("products-category_create")) {
         if(req.body.position == "") {
