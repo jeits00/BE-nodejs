@@ -17,7 +17,6 @@ module.exports.addPost = async (req, res) => {
     // Nếu sp đã có trong giỏ hàng thì +n thêm sp- nếu không sẽ thêm vào giỏ hàng
     if(existProductInCart) {
         const quantityNew = quantity + existProductInCart.quantity;
-        console.log(quantityNew);
 
         // update thêm lượng array trong object 
         await Cart.updateOne(
