@@ -7,6 +7,24 @@ header.header
                 .inner-logo 
                     a(href="/")
                         img(src="/images/logo.svg", alt="Logo")
+            
+            .col-5 
+                form(
+                    action="/search"
+                    method="GET"
+                )
+                    div(class="form-group d-flex mb-0")
+                        input(
+                            type="text"
+                            placeholder="Nhập từ khóa..."
+                            class="form-control"
+                            name="keyword"
+                            value=keyword 
+                        )
+                        button(
+                            type="submit"
+                            class="btn btn-primary"
+                        ) Tìm 
 
             .col-9 
                 .inner-menu 
@@ -14,7 +32,7 @@ header.header
                         li 
                             a(href="/") Home 
                         li(class="sub-menu")
-                            - const pathProduct = "/products";
-                            a(href="/products") Product
+                            -const pathProduct = "/products";
+                            a(href=pathProduct) Product
                                 +sub-menu(layoutProductsCategory, pathProduct)
                         
