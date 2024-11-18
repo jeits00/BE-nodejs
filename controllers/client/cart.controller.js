@@ -1,4 +1,48 @@
 const Cart = require("../../models/cart.model");
+const Product = require("../../models/product.model");
+
+const productsHelper = require("../../helpers/products");
+
+// [GET] /cart/
+module.exports.index = async (req, res) => {
+    // bug: không có sp trong danh sách nên không cho vào trong giỏ, products không có dữ liệu -> lỗi
+
+    const cartId = req.cookies.cartId;
+    
+    const cart = await Cart.find({
+        _id: cartId 
+    });
+
+    console.log(cart.products);
+
+    // có data sẽ có dùng cái if này.
+    // if(cart.products.length > 0) {
+    if(cart.products) {
+        for (const item of cart.products) {
+            const productId = item.product_id;
+            const productInfo = await Product.findOne({
+                _id: productId,
+            }).select("title thumbnail slug price discountPercentage");
+
+            productInfo.priceNew = productsHelper.priceNewProduct(productInfo);
+
+            item.productInfo = productInfo;
+
+            // tính giá 1sp 
+            item.totalPrice = productInfo.priceNew * item.quantity;
+        }
+    }
+
+    // tổng tiền các sp 
+    // lỗi data kh truy xuất đc nên lỗi 
+    // cart.totalPrice = cart.products.reduce((sum, item) => sum + item.totalPrice, 0);
+    cart.totalPrice = 10;
+
+    res.render("client/pages/cart/index", {
+        pageTitle: "Giỏ hàng", 
+        cartDetail: cart
+    });
+}
 
 // [POST] /cart/add/:productId - lấy id sp, số lượng sp, id giỏ hàng của người dùng vừa lấy lưu vào data
 module.exports.addPost = async (req, res) => {
