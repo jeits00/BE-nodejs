@@ -96,3 +96,26 @@ module.exports.addPost = async (req, res) => {
 
     res.redirect("back");
 }
+
+// [GET] /cart/delete/:productId
+module.exports.delete = async (req, res) => {
+    const cartId = req.cookies.cartId;
+    const productId = req.params.productId;
+
+    // cách 1: xóa sp - dùng mongo gõ
+    await Cart.updateOne({
+        _id: cartId 
+    },{
+        $pull: { products: { product_id : productId } }
+    });
+
+    // cách 2: xóa sp - dùng js gõ
+    // const cart = await Cart.findById(cartId);
+    // const indexProduct = cart.products.findIndex(dataIndex => dataIndex.product_id === productId);
+    // cart.products.splice(indexProduct, 1);
+    // await cart.save();
+
+    req.flash("success", "Đã xóa sản phẩm khỏi giỏ hàng!");
+
+    res.redirect("back");
+}
