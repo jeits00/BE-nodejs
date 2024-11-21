@@ -107,11 +107,35 @@ module.exports.order = async (req, res) => {
     res.redirect(`/checkout/success/${order.id}`);
 }
 
-// [POST] /checkout/success/:id 
+// [POST] /checkout/order - Đây là trang 'đặt hàng thành công' 
+// Sau khi KH nhập các thông tin -> chuyển sang trang đặt hàng thành công thì sẽ có các thông tin bên đó 
 module.exports.success = async (req, res) => {
-    console.log(req.params.orderId);
+    const order = await Order.findOne({
+        _id: req.params.orderId 
+    });
+
+    for (const product of order.products) {
+        const productInfo = await Product.findOne({
+            _id: product.product_id 
+        }).select("title thumbnail");
+        // select: sẽ lấy các thông tin được yêu cầu - theo id trên.
+
+        product.productInfo = productInfo;
+        
+        // tính giá mới
+        product.priceNew = productsHelper.priceNewProduct(product);
+
+        // tổng tiền của mỗi sản phẩm: giá mới * số lượng 
+        product.totalPrice = product.priceNew * product.quantity;
+    }
+
+    // tổng tiền của cả đơn hàng 
+    order.totalPrice = order.products.reduce((sum, item) => sum + item.totalPrice, 0);
+
+    console.log(order);
 
     res.render("client/pages/checkout/success", {
-        pageTitle: "Đặt hàng thành công"
+        pageTitle: "Đặt hàng thành công",
+        order: order 
     });
 }
