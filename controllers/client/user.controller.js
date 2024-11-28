@@ -79,13 +79,21 @@ module.exports.loginPost = async (req, res) => {
         return;
     }
 
-    // Tìm giỏ hàng và user_id của người thêm sản phẩm vào user_id đó 
-    await Cart.updateOne({
-        _id: req.cookies.cardId 
-    }, {
+    // Kiểm tra userId có tồn tại không
+    const cart = await Cart.findOne({
         user_id: user.id 
     });
-    // End 
+
+    if(cart) {
+        res.cookie("cartId", cart.id);
+    } else {
+        // Tìm giỏ hàng và user_id của người thêm sản phẩm vào user_id đó 
+        await Cart.updateOne({
+            _id: req.cookies.cardId 
+        }, {
+            user_id: user.id 
+        });
+    }
 
     // tạo cookie cho tài khoản 
     res.cookie("tokenUser", user.tokenUser);
@@ -96,6 +104,7 @@ module.exports.loginPost = async (req, res) => {
 // [GET] /user/logout 
 module.exports.logout = async (req, res) => {
     res.clearCookie("tokenUser");
+    res.clearCookie("cartId");   
     res.redirect("/");
 };
 
